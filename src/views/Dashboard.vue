@@ -144,7 +144,7 @@ export default {
         money: {
           // update
           title: "Request Total",
-          value: "125",
+          value: "150",
           iconBackground: "bg-gradient-primary",
         },
         users: {
