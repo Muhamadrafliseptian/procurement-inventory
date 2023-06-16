@@ -18,8 +18,8 @@
         يرجى التحقق من مستنداتنا
       </p>
       <p v-else class="text-xs font-weight-bold">Please check our docs</p>
-    </div> -->
-    <!-- <a
+    </div>
+    <a
       v-if="this.$store.state.isRTL"
       href="https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/"
       target="_blank"
@@ -51,10 +51,15 @@
   </div>
 </template>
 <script>
+// import img from "../../assets/img/illustrations/icon-documentation.svg";
 
 export default {
   name: "sidenav-card",
   props: ["textPrimary", "textSecondary", "iconClass"],
-  
+  // data() {
+  //   return {
+  //     img
+  //   };
+  // }
 };
 </script>
