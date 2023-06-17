@@ -1,33 +1,35 @@
 import { defineStore } from "pinia";
 import * as s$auth from '@/services/auth'
 import { setCookies, certCookies, delCookies } from "@/plugins/cookies";
+import parseJwt from '@/plugins/parseJwt'
+
 
 const d$auth = defineStore({
     id: 'auth',
     state: () => ({
         id: undefined,
-        name: undefined,
+        username: undefined,
         role: undefined,
     }),
     actions: {
         async a$setUser() {
             try {
-                const { id, name, role } = certCookies();
+                const { id, username, role } = certCookies();
                 this.id = id;
-                this.name = name;
+                this.username = username;
                 this.role = role;
                 return 'User Authenticated!';
             } catch ({ message }) {
                 this.id = undefined;
-                this.name = undefined;
+                this.username = undefined;
                 this.role = undefined;
                 throw message;
             }
         },
         async a$login(body) {
             try {
-                const { data } = await s$auth.login(body);
-                setCookies('CERT', data.token, { datetime: data.expiresAt })
+                const { token } = await s$auth.login(body);
+                setCookies('CERT', token, { datetime: Date(parseJwt(token).exp).toString() });
                 this.a$setUser();
                 return true
             } catch ({ error, message }) {
@@ -52,7 +54,7 @@ const d$auth = defineStore({
         },
     },
     getters: {
-        g$user: ({ id, name, role }) => ({ id, name, role })
+        g$user: ({ id, username, role }) => ({ id, username, role })
     },
 
 })

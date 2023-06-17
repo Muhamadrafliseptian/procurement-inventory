@@ -34,8 +34,13 @@ baseApi.interceptors.response.use(
     (response) => response.data,
     (error) => {
         switch (error.response.status) {
+            
             case 401:
                 delCookies("CERT");
+                break;
+                case 403:
+                delCookies("CERT");
+                return import('@/views/Dashboard/Default.vue');
                 break;
             default:
                 break;

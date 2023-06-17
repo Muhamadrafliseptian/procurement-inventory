@@ -18,30 +18,20 @@
             </tr>
           </thead>
           <tbody>
+            <!-- samain kyk database -->
             <tr v-for="(item, index) in g$list" :key="item.id">
               <td class="ps-4">{{ index + 1 }}</td>
               <td>
-                <h6>{{ item.title }}</h6>
+                <h6>{{ item.name }}</h6>
               </td>
               <td>{{ item.description }}</td>
               <td class="text-primary ps-4">
-                {{ item.completed ? "Done" : "Not Yet" }}
+                {{ item.quantity }}
               </td>
-              <td>
-                <button
-                  class="btn-secondary rounded px-3"
-                  @click="showModal(item)"
-                >
-                  Edit
-                </button>
-
-                <button
-                  class="btn-danger rounded px-3 ms-2"
-                  @click="showConfirmation(item.id, item.title)"
-                >
-                  Delete
-                </button>
-              </td>
+              <td>{{ item.url }}</td>
+              <td>{{ item.price }}</td>
+              <td>{{ item.total }}</td>
+              <td>{{ item.duedate }}</td>
             </tr>
           </tbody>
         </table>
@@ -143,7 +133,7 @@
 import { mapActions, mapState } from "pinia";
 import Modal from "@/components/Modal.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
-import d$todo from "@/stores/dashboard/todo";
+import d$member from "@/stores/dashboard/member";
 
 export default {
   name: "ToDoTable",
@@ -166,7 +156,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(d$todo, ["g$list"]),
+    ...mapState(d$member, ["g$list"]),
   },
   methods: {
     showModal(item) {
@@ -231,16 +221,13 @@ export default {
       }
     },
 
-    ...mapActions(d$todo, ["a$list", "a$update", "a$delete"]),
+    ...mapActions(d$member, ["a$list", "a$update", "a$delete"]),
     async getList() {
       try {
         await this.a$list();
       } catch (e) {
         console.error("methods getList error", e);
       }
-    },
-    toggleSwitch() {
-      this.editedItem.completed = !this.editedItem.completed;
     },
   },
   async created() {

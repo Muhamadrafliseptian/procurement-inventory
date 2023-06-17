@@ -1,7 +1,7 @@
 const auth = {
     path: '/',
     name: 'Auth',
-    // redirect: { name: 'Signin' },
+    redirect: { name: 'Signin' },
     children: [
         {
             path: "/auth/signin",
