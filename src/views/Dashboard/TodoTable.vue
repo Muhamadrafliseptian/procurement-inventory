@@ -10,7 +10,9 @@
             <tr>
               <th>No</th>
               <th>Nama</th>
-              <th>Jobdesk</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Usename</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -88,6 +90,33 @@
                 />
               </div>
               <div class="form-group">
+                <label for="title">Phone Number:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  v-model="editedItem.title"
+                />
+              </div>
+              <div class="form-group">
+                <label for="title">Email:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  v-model="editedItem.title"
+                />
+              </div>
+              <div class="form-group">
+                <label for="description">Username:</label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  v-model="editedItem.description"
+                ></textarea>
+              </div>
+              <div class="form-group">
                 <label for="completed">Status</label>
                 <argon-switch
                   @change="toggleSwitch"
@@ -95,15 +124,6 @@
                 >
                   {{ editedItem.completed ? "Done" : "Not Yet" }}
                 </argon-switch>
-              </div>
-              <div class="form-group">
-                <label for="description">JobDesk:</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="description"
-                  v-model="editedItem.description"
-                ></textarea>
               </div>
               <div class="text-center mt-4">
                 <button class="btn btn-primary px-6 fs-5" type="submit">
