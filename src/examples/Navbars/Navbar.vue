@@ -9,14 +9,14 @@
     data-scroll="true"
   >
     <div class="px-3 py-1 container-fluid">
-      <breadcrumbs :currentPage="currentRouteName" textWhite="text-black" />
+      <!-- <breadcrumbs :currentPage="currentRouteName" textWhite="text-black" /> -->
 
       <div
         class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
         :class="this.$store.state.isRTL ? 'px-0' : 'me-sm-4'"
         id="navbar"
       >
-        <div
+        <!-- <div
           class="pe-md-3 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
@@ -32,7 +32,7 @@
               "
             />
           </div>
-        </div>
+        </div> -->
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
             <router-link
@@ -47,7 +47,7 @@
               <span v-if="this.$store.state.isRTL" class="d-sm-inline d-none"
                 >يسجل دخول</span
               >
-              <span v-else class="d-sm-inline d-none">Sign In</span>
+              <span v-else class="d-sm-inline d-none">{{ this.g$user.role }}</span>
             </router-link>
           </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -200,6 +200,8 @@
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapMutations, mapActions } from "vuex";
+import { mapState,mapActions as piniaAction } from "pinia";
+import d$auth from "@/stores/auth";
 
 export default {
   name: "navbar",
@@ -209,12 +211,14 @@ export default {
     };
   },
   props: ["minNav", "textWhite"],
-  created() {
+  async created () {
     this.minNav;
+    await this.a$setUser()
   },
   methods: {
     ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
     ...mapActions(["toggleSidebarColor"]),
+    ...piniaAction(d$auth, ["a$setUser"]),
 
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
@@ -225,6 +229,7 @@ export default {
     Breadcrumbs
   },
   computed: {
+    ...mapState(d$auth, ["g$user"]),
     currentRouteName() {
       return this.$route.name;
     }

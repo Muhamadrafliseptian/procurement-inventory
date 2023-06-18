@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6>ToDo List table</h6>
+      <h6>Procurement</h6>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
@@ -33,13 +33,11 @@
               <td>{{ item.detailItems.duedate }}</td>
               <td>{{ item.createdAt }}</td>
               <td>{{ item.status }}</td>
-              <td> <button @click="showModal">view detail</button> </td>
+              <td> <button>view detail</button> </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      
 
       <!-- <Modal v-show="confirmationVisible" @close="closeModal2">
         <template v-slot:header>This Modal Confirmation</template>

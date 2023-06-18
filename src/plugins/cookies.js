@@ -22,6 +22,12 @@ const certCookies = () => {
     if (token) {
         const { user: { id, username, role }, exp } = parseJwt(token);
         if (!id) return delCookies("CERT");
+        // console.log({
+        //     id,
+        //     username,
+        //     role,
+        //     exp,
+        // });
         return {
             id,
             username,

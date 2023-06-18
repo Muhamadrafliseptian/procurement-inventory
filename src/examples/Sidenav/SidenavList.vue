@@ -16,11 +16,12 @@
           </template>
         </sidenav-item>
       </li>
+      <template v-if="this.g$user.role==='admin'">
       <li class="nav-item">
         <sidenav-item
-          url="/dashboard/todo"
-          :class="getRoute() === 'todo' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'ToDo'"
+          url="/dashboard/adminMember"
+          :class="getRoute() === 'adminMember' ? 'active' : ''"
+          navText="Member Management"
         >
           <template v-slot:icon>
             <i
@@ -29,6 +30,22 @@
           </template>
         </sidenav-item>
       </li>
+    </template>
+    <template v-if="this.g$user.role==='member'">
+      <li class="nav-item">
+        <sidenav-item
+          url="/dashboard/todo"
+          :class="getRoute() === 'todo' ? 'active' : ''"
+          navText="Procurement Management"
+        >
+          <template v-slot:icon>
+            <i
+              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
+            ></i>
+          </template>
+        </sidenav-item>
+      </li>
+    </template>
       <li class="nav-item">
         <sidenav-item
           url="/dashboard/tables"
@@ -102,7 +119,8 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
 import d$auth from "@/stores/auth.js";
-import { mapActions } from "pinia";
+import { mapState,mapActions } from "pinia";
+
 
 export default {
   name: "SidenavList",
@@ -120,6 +138,9 @@ export default {
     SidenavItem,
     SidenavCard,
     ArgonButton,
+  },
+  computed:{
+    ...mapState(d$auth,['g$user'])
   },
   methods: {
     ...mapActions(d$auth, ["a$logout"]),

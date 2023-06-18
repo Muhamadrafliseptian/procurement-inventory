@@ -15,6 +15,7 @@ const d$auth = defineStore({
         async a$setUser() {
             try {
                 const { id, username, role } = certCookies();
+                console.log({ id, username, role });
                 this.id = id;
                 this.username = username;
                 this.role = role;

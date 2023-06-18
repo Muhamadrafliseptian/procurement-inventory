@@ -38,6 +38,12 @@ const dashboard = {
             component: () => import('@/views/Dashboard/Member.vue'),
             meta: { auth: true },
         },
+        {
+            path: "adminMember",
+            name: "adminMember",
+            component: () => import('@/views/Dashboard/admin/adminMember.vue'),
+            meta: { auth: true },
+        },
     ]
 };
 

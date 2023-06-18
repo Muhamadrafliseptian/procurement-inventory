@@ -19,5 +19,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+console.log(certCookies());
 
 export default router;
