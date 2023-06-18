@@ -8,36 +8,40 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Usename</th>
+              <!-- <th>No</th> -->
+              <th>Name</th>
+              <th>Category</th>
+              <th>Total</th>
+              <th>Due Date</th>
+              <th>Submit Date</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <!-- samain kyk database -->
-            <tr v-for="(item, index) in g$list" :key="item.id">
-              <td class="ps-4">{{ index + 1 }}</td>
+            <tr v-for="(item, detailItems ) in g$list"  >
+              
+              <!-- <td class="ps-4">{{ index + 1 }}</td> -->
               <td>
-                <h6>{{ item.name }}</h6>
+                <h6>{{ item.detailItems.name }}</h6>
               </td>
-              <td>{{ item.description }}</td>
-              <td class="text-primary ps-4">
-                {{ item.quantity }}
+              <td>{{ item.detailItems.categoryId }}</td>
+              <td >
+                {{ item.detailItems.total }}
               </td>
-              <td>{{ item.url }}</td>
-              <td>{{ item.price }}</td>
-              <td>{{ item.total }}</td>
-              <td>{{ item.duedate }}</td>
+              <td>{{ item.detailItems.duedate }}</td>
+              <td>{{ item.createdAt }}</td>
+              <td>{{ item.status }}</td>
+              <td> <button @click="showModal">view detail</button> </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <Modal v-show="confirmationVisible" @close="closeModal2">
+      
+
+      <!-- <Modal v-show="confirmationVisible" @close="closeModal2">
         <template v-slot:header>This Modal Confirmation</template>
         <template v-slot:body>
           <div class="mt-3">
@@ -63,9 +67,9 @@
           </div>
         </template>
         <template v-slot:footer>@footerKonfirmasi</template>
-      </Modal>
+      </Modal> -->
 
-      <Modal v-show="isModalEditVisible" @close="closeModal">
+      <!-- <Modal v-show="isModalEditVisible" @close="closeModal">
         <template v-slot:header>This Modal</template>
         <template v-slot:body>
           <div class="mt-3">
@@ -124,7 +128,7 @@
           </div>
         </template>
         <template v-slot:footer>@footerMeme</template>
-      </Modal>
+      </Modal> -->
     </div>
   </div>
 </template>

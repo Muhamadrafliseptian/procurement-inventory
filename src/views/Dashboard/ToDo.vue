@@ -9,11 +9,11 @@
         >
           Add
         </button>
-        <Modal v-show="isModalAddVisible" @close="closeModal">
-          <template v-slot:header>Procurement Inventory</template>
-          <template v-slot:body>
+        <!-- <Modal v-show="isModalAddVisible" @close="closeModal" > -->
+          <!-- <template v-slot:header>Procurement Inventory</template> -->
+          <!-- <template v-slot:body> -->
             <div class="mt-3">
-              <form v-on:submit.prevent="submitAddList">
+              <form v-on:submit.prevent="submitAddList" v-show="isModalAddVisible" @close="closeModal">
                 <div class="form-group">
                   <label for="title">Nama:</label>
                   <input
@@ -93,9 +93,9 @@
                 </div>
               </form>
             </div>
-          </template>
-          <template v-slot:footer> Procurement Inventory </template>
-        </Modal>
+          <!-- </template> -->
+          <!-- <template v-slot:footer> Procurement Inventory </template> -->
+        <!-- </Modal> -->
         <TodoTable />
       </div>
     </div>
