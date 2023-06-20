@@ -46,30 +46,8 @@
         </sidenav-item>
       </li>
     </template>
-      <li class="nav-item">
-        <sidenav-item
-          url="/dashboard/tables"
-          :class="getRoute() === 'tables' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
-        >
-          <template v-slot:icon>
-            <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
-            ></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/dashboard/billing"
-          :class="getRoute() === 'billing' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Billing'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+      
+      
       <li class="mt-3 nav-item">
         <h6
           v-if="this.$store.state.isRTL"
@@ -78,26 +56,8 @@
         >
           صفحات المرافق
         </h6>
-        <h6
-          v-else
-          class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
-        >
-          ACCOUNT PAGES
-        </h6>
       </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/dashboard/profile"
-          :class="getRoute() === 'profile' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <div class="pt-3 mx-3 mt-3 sidenav-footer">
+      <div class="pt-10 mx-3 mt-10 sidenav-footer">
         <li class="nav-item">
           <ArgonButton @click="signOut" color="danger" full-width
             >Logout

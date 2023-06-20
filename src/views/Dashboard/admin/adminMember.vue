@@ -5,10 +5,18 @@
       </div>
       <div class="card-body px-0 pt-0 pb-2">
         <div class="table-responsive p-0">
-          <table class="table align-items-center mb-0">
+          <data-tabel
+          :index="false"
+          :data="g$list"
+          v-bind="dt"
+          @detail-admin="showDetail"
+          @edit-admin="showModal"
+          @delete-admin="showConfirmation"
+
+        />
+          <!-- <table class="table align-items-center mb-0">
             <thead>
               <tr>
-                <!-- <th>No</th> -->
                 <th>Name</th>
                 <th>Phone Number</th>
                 <th>Email</th>
@@ -17,10 +25,7 @@
               </tr>
             </thead>
             <tbody>
-              <!-- samain kyk database -->
-              <tr v-for="(item ) in g$list"  >
-                
-                <!-- <td class="ps-4">{{ index + 1 }}</td> -->
+              <tr v-for="(item, index ) in g$list"  >
                 <td>
                   <h6>{{ item.name }}</h6>
                 </td>
@@ -29,11 +34,146 @@
                   {{ item.email }}
                 </td>
                 <td>{{ item.username }}</td>
-                <td> <button>Action</button> </td>
+                <td >
+                  <a href="#" class="btn btn-danger dropdown-toggle" 
+                  :id="`dropdown-${index}`" data-bs-toggle="dropdown" @click="showMenu = !showMenu" >Action</a>
+                  <ul class="dropdown-menu" :class="[showMenu ? 'show' : '']">
+                    <li class="dropdown-item" @click="showDetail(item)" >See Detail</li>
+                    <li class="dropdown-item" @click="showModal(item)">Edit Profile</li>
+                    <li class="dropdown-item" @click="showConfirmation(item.id, item.title)">Delete</li>
+                  </ul>
+                </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
         </div>  
+        <!-- modal detail -->
+        <Modal v-show="modalDetail" @close="closeModal">
+        <template v-slot:header>This Modal</template>
+        <template v-slot:body>
+          <h2 style="text-align: center;"> Detail</h2>
+          <div class="card">
+            <h5 class="card-header">Member Information</h5>
+            <div class="card-body">
+              <h6>Name  : {{ detail.name }}</h6>
+              <h6>NIK  : {{ detail.nik }}</h6>
+              <h6>Address  : {{ detail.address }}</h6>
+              <h6>Phone Number  : {{ detail.phone }}</h6>
+              <h6>Username  : {{ detail.username }}</h6>
+              <h6>Email  : {{ detail.email }}</h6>
+              <h6>Password  : {{ detail.password }}</h6>
+            </div>
+          </div>
+        </template>
+        <template v-slot:footer>@footerMeme</template>
+      </Modal>
+      <!-- modal edit profil -->
+      <Modal v-show="isModalEditVisible" @close="closeModal2">
+        <template v-slot:header>This Modal</template>
+        <template v-slot:body>
+          <div class="mt-3">
+            <form v-on:submit.prevent="updateList">
+              <div class="form-group">
+                <label for="name">Nama:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  v-model="editedItem.name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="nik">NIK:</label>
+                <textarea
+                  type="string"
+                  class="form-control"
+                  id="nik"
+                  v-model="editedItem.nik"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  v-model="editedItem.address"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <textarea
+                  type="integer"
+                  class="form-control"
+                  id="phone"
+                  v-model="editedItem.phone"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <textarea
+                  type="string"
+                  class="form-control"
+                  id="username"
+                  v-model="editedItem.username"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <textarea
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  v-model="editedItem.email"
+                ></textarea>
+              </div>
+              <!-- <div class="form-group">
+                <label for="password">Password:</label>
+                <textarea
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  v-model="editedItem.password"
+                ></textarea>
+              </div> -->
+              <div class="text-center mt-4">
+                <button class="btn btn-primary px-6 fs-5" type="submit">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </template>
+        <template v-slot:footer>@footerMeme</template>
+      </Modal>
+      <!-- modal delete -->
+      <Modal v-show="confirmationVisible" @close="closeModal3">
+        <template v-slot:header>This Modal Confirmation</template>
+        <template v-slot:body>
+          <div class="mt-3">
+            <div class="text-center fs-1">
+              Are you sure to delete {{ deleteItemTitle }}?
+            </div>
+            <div class="text-center mt-9">
+              <button
+                class="btn btn-danger px-6 fs-5"
+                @click="deleteItem"
+                type="submit"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-secondary px-6 fs-5 ms-2"
+                @click="closeModal2"
+                type="submit"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </template>
+        <template v-slot:footer>@footerKonfirmasi</template>
+      </Modal>
     </div>
     </div>
   </template>
@@ -43,15 +183,53 @@
   import Modal from "@/components/Modal.vue";
   import ArgonSwitch from "@/components/ArgonSwitch.vue";
   import d$adminMember from "@/stores/dashboard/adminMember";
+  import DataTabel from "@/components/datatabels.vue"
+  
   
   export default {
     name: "adminMember",
     components: {
+      DataTabel,
       ArgonSwitch,
       Modal,
     },
     data() {
       return {
+        // DataTable
+    dt: {
+      columns: [
+        { name: 'name', th: ' Name' },
+        { name: 'phone', th: 'Phone' },
+        { name: 'username', th: ' Username' },
+        { name: 'email', th: ' Email' },
+        // {
+        //   name: 'partNumber',
+        //   th: 'Part Number',
+        //   render: ({ part }) => part.number,
+        // },
+      ],
+      actions: [
+        {
+          text: 'Detail',
+          color: 'info',
+          disabled: ({ isDisabled }) => isDisabled,
+          event: 'detail-admin',
+        },
+        {
+          text: 'Edit ',
+          color: 'warning',
+          disabled: ({ isDisabled }) => isDisabled,
+          event: 'edit-admin',
+        },
+        {
+          text: 'Hapus',
+          color: 'danger',
+          disabled: ({ isDisabled }) => isDisabled,
+          event: 'delete-admin',
+        },
+        
+      ],
+    },
         editedItem: {
           id: "",
           title: "",
@@ -62,6 +240,8 @@
         confirmationVisible: false,
         deleteItemId: null,
         deleteItemTitle: "",
+        modalDetail: false,
+        detail: {},
       };
     },
     computed: {
@@ -70,17 +250,27 @@
     methods: {
       showModal(item) {
         this.editedItem = { ...item };
+        // this.editedItem = {...(await this.a$getById(item,id))}
         this.isModalEditVisible = true;
       },
-      showConfirmation(itemId, title) {
+      async showDetail(item){
+        console.log(item);
+        // this.detail = {...item};
+        this.detail = {...(await this.a$getById(item.id))};
+        this.modalDetail = true;
+      },
+      showConfirmation({id, name}) {
         this.confirmationVisible = true;
-        this.deleteItemId = itemId;
-        this.deleteItemTitle = title;
+        this.deleteItemId = id;
+        this.deleteItemTitle = name;
       },
       closeModal() {
-        this.isModalEditVisible = false;
+        this.modalDetail = false;
       },
       closeModal2() {
+        this.isModalEditVisible = false;
+      },
+      closeModal3() {
         this.confirmationVisible = false;
       },
       async updateList() {
@@ -114,23 +304,20 @@
   
       async deleteItem() {
         try {
-          await this.a$delete(this.deleteItemId);
-  
-          // Hapus item dari daftar tugas secara lokal
-          this.g$list = this.g$list.filter(
-            (item) => item.id !== this.deleteItemId
-          );
-  
-          // Perbarui data tabel secara otomatis setelah operasi penghapusan berhasil
-          await this.getList();
-  
+          await this.a$delete(this.deleteItemId);  
           this.closeModal2();
         } catch (e) {
           console.error(e);
         }
       },
   
-      ...mapActions(d$adminMember, ["a$list", "a$update", "a$delete"]),
+      ...mapActions(d$adminMember, [ 
+"a$list",
+"a$update",
+"a$getById",
+"a$add",
+"a$delete",
+      ]),
       async getList() {
         try {
           await this.a$list();

@@ -17,9 +17,10 @@ const d$adminMember = defineStore({
                 throw e;
             }
         },
-        async a$update(id, updatedItem, body) {
+        async a$update(id, body) {
             try {
-                await s$adminMember.update(id, updatedItem, body);
+                await s$adminMember.update(id, body);
+                await this.a$list();
             } catch (e) {
                 console.error('actions todo update error', e);
                 throw e;
@@ -27,7 +28,8 @@ const d$adminMember = defineStore({
         },
         async a$getById(id) {
             try {
-                await s$adminMember.getById(id);
+                const {data} = await s$adminMember.getById(id);
+                return data
             } catch (e) {
                 console.error('actions todo update error', e);
                 throw e;
@@ -36,6 +38,7 @@ const d$adminMember = defineStore({
         async a$add(body) {
             try {
                 await s$adminMember.add(body);
+                await this.a$list();
             } catch (e) {
                 console.error('actions todo add error', e);
                 throw e;
@@ -44,6 +47,7 @@ const d$adminMember = defineStore({
         async a$delete(id) {
             try {
                 await s$adminMember.del(id);
+                await this.a$list();
             } catch (e) {
                 console.error('actions todo delete error', e);
                 throw e;
