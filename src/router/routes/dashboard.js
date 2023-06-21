@@ -9,12 +9,6 @@ const dashboard = {
             meta: { auth: true },
         },
         {
-            path: "tables",
-            name: "Tables",
-            component: () => import('@/views/Dashboard/Tables.vue'),
-            meta: { auth: true },
-        },
-        {
             path: "billing",
             name: "Billing",
             component: () => import('@/views/Dashboard/Billing.vue'),
@@ -32,12 +26,12 @@ const dashboard = {
             component: () => import('@/views/Dashboard/Profile.vue'),
             meta: { auth: true },
         },
-        {
-            path: "member",
-            name: "Member",
-            component: () => import('@/views/Dashboard/Member.vue'),
-            meta: { auth: true },
-        },
+        // {
+        //     path: "member",
+        //     name: "Member",
+        //     component: () => import('@/views/Dashboard/Member.vue'),
+        //     meta: { auth: true },
+        // },
         {
             path: "adminMember",
             name: "adminMember",

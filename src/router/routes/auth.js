@@ -12,7 +12,7 @@ const auth = {
         {
             path: "/auth/signup",
             name: "Signup",
-            component: () => import('@/views/Auth/Signup'),
+            component: () => import('@/views/Auth/Signup.vue'),
         },
     ],
 };
