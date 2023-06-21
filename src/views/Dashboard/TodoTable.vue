@@ -4,11 +4,19 @@
       <h6>Procurement</h6>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+          <data-tabel
+          :index="false"
+          :data="g$list"
+          v-bind="dt"
+          @detail-member="showDetail"
+
+        />
+    <!-- <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <!-- <th>No</th> -->
               <th>Name</th>
               <th>Category</th>
               <th>Total</th>
@@ -19,10 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <!-- samain kyk database -->
             <tr v-for="(item, detailItems ) in g$list"  >
-              
-              <!-- <td class="ps-4">{{ index + 1 }}</td> -->
               <td>
                 <h6>{{ item.detailItems.name }}</h6>
               </td>
@@ -37,96 +42,29 @@
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <!-- <Modal v-show="confirmationVisible" @close="closeModal2">
-        <template v-slot:header>This Modal Confirmation</template>
-        <template v-slot:body>
-          <div class="mt-3">
-            <div class="text-center fs-1">
-              Are you sure to delete {{ deleteItemTitle }}?
-            </div>
-            <div class="text-center mt-9">
-              <button
-                class="btn btn-danger px-6 fs-5"
-                @click="deleteItem"
-                type="submit"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-secondary px-6 fs-5 ms-2"
-                @click="closeModal2"
-                type="submit"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </template>
-        <template v-slot:footer>@footerKonfirmasi</template>
-      </Modal> -->
-
-      <!-- <Modal v-show="isModalEditVisible" @close="closeModal">
+      </div> -->
+    </div>
+    <Modal v-show="modalDetail" @close="closeModal">
         <template v-slot:header>This Modal</template>
         <template v-slot:body>
-          <div class="mt-3">
-            <form v-on:submit.prevent="updateList">
-              <div class="form-group">
-                <label for="title">Nama:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="title"
-                  v-model="editedItem.title"
-                />
-              </div>
-              <div class="form-group">
-                <label for="title">Phone Number:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="title"
-                  v-model="editedItem.title"
-                />
-              </div>
-              <div class="form-group">
-                <label for="title">Email:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="title"
-                  v-model="editedItem.title"
-                />
-              </div>
-              <div class="form-group">
-                <label for="description">Username:</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="description"
-                  v-model="editedItem.description"
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <label for="completed">Status</label>
-                <argon-switch
-                  @change="toggleSwitch"
-                  v-model="editedItem.completed"
-                >
-                  {{ editedItem.completed ? "Done" : "Not Yet" }}
-                </argon-switch>
-              </div>
-              <div class="text-center mt-4">
-                <button class="btn btn-primary px-6 fs-5" type="submit">
-                  Save
-                </button>
-              </div>
-            </form>
+          <h2 style="text-align: center;"> Detail</h2>
+          <div class="card">
+            <h5 class="card-header">Member Information</h5>
+            <div class="card-body">
+              <h6>Nama  : {{ detail.name }}</h6>
+              <h6>Category  : {{ detail.categoryId }}</h6>
+              <h6>Description  : {{ detail.description }}</h6>
+              <h6>url  : {{ detail.url }}</h6>
+              <h6>Quantity  : {{ detail.quantity }}</h6>
+              <h6>Price  : {{ detail.price }}</h6>
+              <h6>total  : {{ detail.total }}</h6>
+              <h6>status  : {{ detail.status }}</h6>
+              <h6>Duedate  : {{ detail.duedate }}</h6>
+            </div>
           </div>
         </template>
         <template v-slot:footer>@footerMeme</template>
-      </Modal> -->
+      </Modal>
     </div>
   </div>
 </template>
@@ -136,94 +74,104 @@ import { mapActions, mapState } from "pinia";
 import Modal from "@/components/Modal.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import d$member from "@/stores/dashboard/member";
+import DataTabel from "@/components/datatabels.vue"
+
 
 export default {
   name: "ToDoTable",
   components: {
+    DataTabel,
     ArgonSwitch,
     Modal,
   },
   data() {
     return {
-      editedItem: {
-        id: "",
-        title: "",
-        description: "",
-        completed: false,
-      },
-      isModalEditVisible: false,
-      confirmationVisible: false,
-      deleteItemId: null,
-      deleteItemTitle: "",
-    };
-  },
+      dt: {
+      columns: [
+        { name: 'detailItems.name', th: ' Name' },
+        { name: 'detailItems.categoryId', th: 'categori' },
+        { name: 'detailItems.total', th: ' total '},
+        { name: 'detailItems.duedate', th: ' due date' },
+        { name: 'createdAt', th: ' Submit Date' },
+        { name: 'status', th: ' Status' },
+      ],
+      actions: [
+        {
+          text: 'Detail',
+          color: 'info',
+          disabled: ({ isDisabled }) => isDisabled,
+          event: 'detail-member',
+        },
+      ],
+    },
+    modalDetail: false,
+    detail: {},
+
+  };
+},
   computed: {
     ...mapState(d$member, ["g$list"]),
   },
   methods: {
-    showModal(item) {
-      this.editedItem = { ...item };
-      this.isModalEditVisible = true;
-    },
-    showConfirmation(itemId, title) {
-      this.confirmationVisible = true;
-      this.deleteItemId = itemId;
-      this.deleteItemTitle = title;
-    },
+    async showDetail(item){
+        console.log(item);
+        // this.detail = {...item};
+        this.detail = {...(await this.a$getById(item.id))};
+        this.modalDetail = true;
+      },
     closeModal() {
-      this.isModalEditVisible = false;
+      this.modalDetail = false;
     },
-    closeModal2() {
-      this.confirmationVisible = false;
-    },
-    async updateList() {
-      try {
-        const updatedItem = { ...this.editedItem };
-        delete updatedItem.id;
+    // async updateList() {
+    //   try {
+    //     const updatedItem = { ...this.editedItem };
+    //     delete updatedItem.id;
 
-        // Periksa apakah deskripsi tidak kosong
-        if (!updatedItem.description) {
-          throw new Error("Description is required.");
-        }
+    //     // Periksa apakah deskripsi tidak kosong
+    //     if (!updatedItem.description) {
+    //       throw new Error("Description is required.");
+    //     }
 
-        await this.a$update(this.editedItem.id, updatedItem);
+    //     await this.a$update(this.editedItem.id, updatedItem);
 
-        // Perbarui daftar tugas secara lokal dengan tugas yang diperbarui
-        const index = this.g$list.findIndex(
-          (item) => item.id === this.editedItem.id
-        );
-        if (index !== -1) {
-          this.g$list[index] = { ...this.g$list[index], ...updatedItem };
-        }
+    //     // Perbarui daftar tugas secara lokal dengan tugas yang diperbarui
+    //     const index = this.g$list.findIndex(
+    //       (item) => item.id === this.editedItem.id
+    //     );
+    //     if (index !== -1) {
+    //       this.g$list[index] = { ...this.g$list[index], ...updatedItem };
+    //     }
 
-        this.closeModal();
+    //     this.closeModal();
 
-        // Perbarui data tabel secara otomatis setelah operasi pembaruan berhasil
-        await this.getList();
-      } catch (e) {
-        console.error(e);
-      }
-    },
+    //     // Perbarui data tabel secara otomatis setelah operasi pembaruan berhasil
+    //     await this.getList();
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
+    // },
 
-    async deleteItem() {
-      try {
-        await this.a$delete(this.deleteItemId);
+      // async deleteItem() {
+      //   try {
+      //     await this.a$delete(this.deleteItemId);
 
-        // Hapus item dari daftar tugas secara lokal
-        this.g$list = this.g$list.filter(
-          (item) => item.id !== this.deleteItemId
-        );
+      //     // Hapus item dari daftar tugas secara lokal
+      //     this.g$list = this.g$list.filter(
+      //       (item) => item.id !== this.deleteItemId
+      //     );
 
-        // Perbarui data tabel secara otomatis setelah operasi penghapusan berhasil
-        await this.getList();
+      //     // Perbarui data tabel secara otomatis setelah operasi penghapusan berhasil
+      //     await this.getList();
 
-        this.closeModal2();
-      } catch (e) {
-        console.error(e);
-      }
-    },
+      //     this.closeModal2();
+      //   } catch (e) {
+      //     console.error(e);
+      //   }
+      // },
 
-    ...mapActions(d$member, ["a$list", "a$update", "a$delete"]),
+    ...mapActions(d$member, ["a$list",
+"a$update",
+"a$getById",]),
     async getList() {
       try {
         await this.a$list();

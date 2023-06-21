@@ -9,7 +9,7 @@
         <sidenav-item
           url="/dashboard"
           :class="getRoute() === 'dashboard' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
+          navText=" Dashboard" 
         >
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -21,11 +21,11 @@
         <sidenav-item
           url="/dashboard/adminMember"
           :class="getRoute() === 'adminMember' ? 'active' : ''"
-          navText="Member Management"
+          navText="Member Management" 
         >
           <template v-slot:icon>
             <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
+              class="ni ni-bullet-list-67 text-warning text-sm opacity-10"
             ></i>
           </template>
         </sidenav-item>
@@ -34,8 +34,8 @@
     <template v-if="this.g$user.role==='member'">
       <li class="nav-item">
         <sidenav-item
-          url="/dashboard/todo"
-          :class="getRoute() === 'todo' ? 'active' : ''"
+          url="/dashboard/ToDoTable"
+          :class="getRoute() === 'ToDoTable' ? 'active' : ''"
           navText="Procurement Management"
         >
           <template v-slot:icon>
@@ -59,7 +59,7 @@
       </li>
       <div class="pt-10 mx-3 mt-10 sidenav-footer">
         <li class="nav-item">
-          <ArgonButton @click="signOut" color="danger" full-width
+          <ArgonButton @click="signOut" color="primary" full-width
             >Logout
           </ArgonButton>
         </li>

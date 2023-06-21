@@ -1,4 +1,5 @@
 <template>
+  <div class="py-4 container-fluid">
     <div class="card">
       <div class="card-header pb-0">
         <h6>Member</h6>
@@ -176,6 +177,7 @@
       </Modal>
     </div>
     </div>
+  </div>
   </template>
   
   <script>
