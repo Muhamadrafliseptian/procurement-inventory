@@ -51,15 +51,15 @@
           <div class="card">
             <h5 class="card-header">Member Information</h5>
             <div class="card-body">
-              <h6>Nama  : {{ detail.name }}</h6>
-              <h6>Category  : {{ detail.categoryId }}</h6>
-              <h6>Description  : {{ detail.description }}</h6>
-              <h6>url  : {{ detail.url }}</h6>
-              <h6>Quantity  : {{ detail.quantity }}</h6>
-              <h6>Price  : {{ detail.price }}</h6>
-              <h6>total  : {{ detail.total }}</h6>
-              <h6>status  : {{ detail.status }}</h6>
-              <h6>Duedate  : {{ detail.duedate }}</h6>
+              <h6>Nama  : {{ detail?.detailItems?.name }}</h6>
+              <h6>Category  : {{ detail?.detailItems?.categoryId }}</h6>
+              <h6>Description  : {{ detail?.detailItems?.description }}</h6>
+              <h6>url  : {{ detail?.detailItems?.url }}</h6>
+              <h6>Quantity  : {{ detail?.detailItems?.quantity }}</h6>
+              <h6>Price  : {{ detail?.detailItems?.price }}</h6>
+              <h6>total  : {{ detail?.detailItems?.total }}</h6>
+              <h6>status  : {{ detail?.status }}</h6>
+              <h6>Duedate  : {{ detail?.detailItems?.duedate }}</h6>
             </div>
           </div>
         </template>
@@ -88,12 +88,29 @@ export default {
     return {
       dt: {
       columns: [
-        { name: 'detailItems.name', th: ' Name' },
-        { name: 'detailItems.categoryId', th: 'categori' },
-        { name: 'detailItems.total', th: ' total '},
-        { name: 'detailItems.duedate', th: ' due date' },
+      {
+          name: 'name',
+          th: 'Name',
+          render: ({ detailItems }) => detailItems.name,
+        },
+        {
+          name: 'categoryId',
+          th: 'Category',
+          render: ({ detailItems }) => detailItems.categoryId,
+        },
+        {
+          name: 'Total',
+          th: 'total',
+          render: ({ detailItems }) => detailItems.total,
+        },
+        {
+          name: 'duedate',
+          th: 'Duedate',
+          render: ({ detailItems }) => detailItems.duedate,
+        },
         { name: 'createdAt', th: ' Submit Date' },
         { name: 'status', th: ' Status' },
+        
       ],
       actions: [
         {

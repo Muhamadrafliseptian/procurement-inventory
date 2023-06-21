@@ -27,7 +27,8 @@ const d$member = defineStore({
         },
         async a$getById(id) {
             try {
-                await s$todo.getById(id);
+                const {data} = await s$todo.getById(id);
+                return data
             } catch (e) {
                 console.error('actions todo update error', e);
                 throw e;

@@ -280,21 +280,7 @@
           const updatedItem = { ...this.editedItem };
           delete updatedItem.id;
   
-          // Periksa apakah deskripsi tidak kosong
-          if (!updatedItem.description) {
-            throw new Error("Description is required.");
-          }
-  
           await this.a$update(this.editedItem.id, updatedItem);
-  
-          // Perbarui daftar tugas secara lokal dengan tugas yang diperbarui
-          const index = this.g$list.findIndex(
-            (item) => item.id === this.editedItem.id
-          );
-          if (index !== -1) {
-            this.g$list[index] = { ...this.g$list[index], ...updatedItem };
-          }
-  
           this.closeModal();
   
           // Perbarui data tabel secara otomatis setelah operasi pembaruan berhasil
