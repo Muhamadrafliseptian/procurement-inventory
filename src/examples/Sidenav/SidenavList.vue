@@ -34,8 +34,8 @@
     <template v-if="this.g$user.role==='member'">
       <li class="nav-item">
         <sidenav-item
-          url="/dashboard/ToDoTable"
-          :class="getRoute() === 'ToDoTable' ? 'active' : ''"
+          url="/dashboard/procurement"
+          :class="getRoute() === 'procurement member' ? 'active' : ''"
           navText="Procurement Management"
         >
           <template v-slot:icon>
@@ -46,8 +46,7 @@
         </sidenav-item>
       </li>
     </template>
-      
-      
+  
       <li class="mt-3 nav-item">
         <h6
           v-if="this.$store.state.isRTL"

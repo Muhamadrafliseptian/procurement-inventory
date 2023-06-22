@@ -26,18 +26,40 @@ const dashboard = {
             component: () => import('@/views/Dashboard/Profile.vue'),
             meta: { auth: true },
         },
-        // {
-        //     path: "member",
-        //     name: "Member",
-        //     component: () => import('@/views/Dashboard/Member.vue'),
-        //     meta: { auth: true },
-        // },
         {
             path: "adminMember",
             name: "adminMember",
-            component: () => import('@/views/Dashboard/admin/adminMember.vue'),
+            component: () => import('@/views/Dashboard/admin/member/adminMember.vue'),
             meta: { auth: true },
         },
+        {
+            path: "adminMember",
+            children: [
+                {
+                    path: "create",
+                    name: "Add member",
+                    component: () => import('@/views/Dashboard/admin/member/create.vue'),
+                    meta: { auth: true },
+                }
+            ]
+        },
+        {
+            path: "procurement",
+            name: "procurement member",
+            component: () => import('@/views/Dashboard/admin/procurement/index.vue'),
+            meta: { auth: true },
+        },
+        {
+            path: 'procurement',
+            children: [
+                {
+                    path: "create",
+                    name: "Add Procurement",
+                    component: () => import('@/views/Dashboard/admin/procurement/create.vue'),
+                    meta: { auth: true },
+                }
+            ]
+        }
     ]
 };
 

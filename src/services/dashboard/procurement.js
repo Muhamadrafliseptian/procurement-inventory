@@ -1,6 +1,6 @@
 import { baseApi } from "@/plugins/axios";
 
-const api = '/admin/member';
+const api = '/member/procurement';
 
 const list = () => baseApi.get(`${api}`);
 const add = (body) => baseApi.post(`${api}`, body)
