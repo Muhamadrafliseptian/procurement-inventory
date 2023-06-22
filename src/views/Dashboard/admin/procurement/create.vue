@@ -48,8 +48,8 @@
           name: "",
           url: "",
           description: "",
-          quantity: "",
-          price: "",
+          quantity: 2,
+          price: 3000,
           categoryId: "",
           duedate: ""
         }
